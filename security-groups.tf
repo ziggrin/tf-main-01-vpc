@@ -77,7 +77,6 @@ resource "aws_vpc_security_group_ingress_rule" "icmp_allow_all_ingress_ipv6_seco
   to_port           = -1
 }
 
-
 ########################
 ## AWS Service specific SGs
 ########################
@@ -85,7 +84,7 @@ resource "aws_vpc_security_group_ingress_rule" "icmp_allow_all_ingress_ipv6_seco
 ## ECS EC2 instance
 resource "aws_security_group" "ecs_ec2_instance_ingress" {
   name        = "ecs-ec2-instance"
-  description = "Allow incoming http https from ALB to EC2 ECS instance"
+  description = "Allow incoming HTTP/HTTPS from ALB to EC2 ECS instance"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(local.sg_tags, {
@@ -93,7 +92,6 @@ resource "aws_security_group" "ecs_ec2_instance_ingress" {
   })
 }
 
-#################### DELETE THIS SSH LATER #########################
 resource "aws_vpc_security_group_ingress_rule" "ecs_ec2_instance_ingress_ssh" {
   security_group_id = aws_security_group.ecs_ec2_instance_ingress.id
   cidr_ipv4         = "89.64.96.58/32"
@@ -126,10 +124,10 @@ resource "aws_vpc_security_group_ingress_rule" "ecs_ec2_instance_ingress_ephemer
   to_port           = 65535
 }
 
-## LOAD BALANCER - allow http https ingress
+## LOAD BALANCER - allow HTTP/HTTPS ingress
 resource "aws_security_group" "alb_allow_all_ingress" {
   name        = "alb-allow-all-ingress-http-https"
-  description = "Allow all HTTP HTTPS inbound traffic"
+  description = "Allow all HTTP/HTTPS inbound traffic"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(local.sg_tags, {
@@ -186,11 +184,10 @@ resource "aws_vpc_security_group_ingress_rule" "alb_allow_all_ingress_ipv6_https
   to_port           = 443
 }
 
-
-## ECS - Fargate - allow ingress http https from ALB
+## ECS - Fargate - allow ingress HTTP/HTTPS from ALB
 resource "aws_security_group" "ecs_ingress" {
   name        = "ecs-ingress-http-https"
-  description = "Allow inbound HTTP HTTPS from ALB to ECS Fargate"
+  description = "Allow inbound HTTP/HTTPS from ALB to ECS Fargate"
   vpc_id      = module.vpc.vpc_id
 
   tags = merge(local.sg_tags, {
@@ -213,7 +210,6 @@ resource "aws_vpc_security_group_ingress_rule" "ecs_ingress_ipv4_https" {
   ip_protocol       = "tcp"
   to_port           = 443
 }
-
 
 ## RDS - postgres-ingress-local
 resource "aws_security_group" "postgres_local_ingress" {
@@ -243,7 +239,7 @@ resource "aws_vpc_security_group_ingress_rule" "postgres_local_ingress" {
 ############
 
 ## RDS - preprod-training-calendar
-resource "aws_security_group" "preprod-training-calendar_postgres" {
+resource "aws_security_group" "preprod_training_calendar_postgres" {
   name        = "preprod-training-calendar-postgres"
   description = "Allow postgres from ECS task"
   vpc_id      = module.vpc.vpc_id
@@ -253,8 +249,8 @@ resource "aws_security_group" "preprod-training-calendar_postgres" {
   })
 }
 
-resource "aws_vpc_security_group_ingress_rule" "preprod-training-calendar_postgres" {
-  security_group_id = aws_security_group.preprod-training-calendar_postgres.id
+resource "aws_vpc_security_group_ingress_rule" "preprod_training_calendar_postgres" {
+  security_group_id = aws_security_group.preprod_training_calendar_postgres.id
   referenced_security_group_id = aws_security_group.ecs_ec2_instance_ingress.id
   from_port         = 5432
   to_port           = 5432
