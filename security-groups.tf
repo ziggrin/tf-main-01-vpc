@@ -234,28 +234,6 @@ resource "aws_vpc_security_group_ingress_rule" "postgres_local_ingress" {
   ip_protocol       = "tcp"
 }
 
-
-# ## Endpoint - ECR endpoint for ECS task
-# resource "aws_security_group" "endpoint-ecr-for-ecs-task" {
-#   name        = "endpoint-ecr-for-ecs-task"
-#   description = "Allow HTTPS inbound traffic from ECS tasks to ECR"
-#   vpc_id      = module.vpc.vpc_id
-
-#   tags = merge(local.sg_tags, {
-#     Name = "endpoint-ecr-for-ecs-task"
-#   })
-# }
-
-# resource "aws_vpc_security_group_ingress_rule" "allow_https_from_ecs_task_ingress" {
-#   security_group_id = aws_security_group.endpoint-ecr-for-ecs-task.id
-#   # referenced_security_group_id = aws_security_group.ecs_ingress.id
-#   cidr_ipv4         = "10.0.0.0/16"
-#   from_port         = 443
-#   ip_protocol       = "tcp"
-#   to_port           = 443
-# }
-
-
 ########################
 ## Project specific SGs
 ########################
