@@ -30,7 +30,7 @@ This project sets up an AWS VPC with EC2 instances for ECS using Terraform. It i
 
 1. Clone the repository:
     ```sh
-    git clone git@github.com:YOURUSERNAME/tf-main-01-vpc.git
+    git clone git@github.com:ziggrin/tf-main-01-vpc.git
     cd terraform-ec2-ecs/vpc
     ```
 
